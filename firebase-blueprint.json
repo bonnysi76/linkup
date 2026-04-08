@@ -1,0 +1,119 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and security information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "username": { "type": "string" },
+        "bio": { "type": "string" },
+        "hashedPin": { "type": "string" },
+        "hashedPassword": { "type": "string" },
+        "isSetupComplete": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "hashedPin", "hashedPassword", "isSetupComplete"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "receiverId", "content", "timestamp"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Feed post with media",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "content": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["image", "video"] },
+        "likeCount": { "type": "number" },
+        "commentCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "content", "createdAt", "likeCount", "commentCount"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "Post like",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "postId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "postId", "createdAt"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "A conversation between two users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "unreadCount": { "type": "object" }
+      },
+      "required": ["participants", "lastMessageAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A message within a chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "content": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "image", "video", "voice"] },
+        "mediaUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["sent", "delivered", "seen"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "content", "type", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Individual user profiles"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Direct messages between users"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Feed posts"
+    },
+    "/likes/{likeId}": {
+      "schema": "Like",
+      "description": "Post likes"
+    },
+    "/chats/{chatId}": {
+      "schema": "Chat",
+      "description": "Conversations"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Messages in a chat"
+    }
+  }
+}

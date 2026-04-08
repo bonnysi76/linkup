@@ -1,0 +1,5 @@
+{
+  "name": "iMessage Clone",
+  "description": "A secure messaging app with iMessage-inspired design, Google OAuth, and multi-factor authentication.",
+  "requestFramePermissions": ["camera", "microphone"]
+}
